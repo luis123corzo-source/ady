@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Consultorio del Corazón</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&family=Pacifico&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --mint: #a8e6cf;
+            --pink: #ffaaa5;
+            --dark-mint: #56c596;
+            --white: #ffffff;
+            --rose: #ff8a80;
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(180deg, #e0f7fa 0%, #fce4ec 100%);
+            color: #444;
+            overflow-x: hidden;
+        }
+
+        /* Contenedor Principal */
+        .app-container {
+            max-width: 450px;
+            margin: 0 auto;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            justify-content: center;
+        }
+
+        /* Pantallas */
+        .screen {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out forwards;
+        }
+
+        .active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Estilos de Tarjetas */
+        .card {
+            background: rgba(255, 255, 255, 0.93);
+            border-radius: 25px;
+            padding: 25px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            text-align: center;
+            margin-bottom: 20px;
+            border: 2px solid var(--mint);
+        }
+
+        .title {
+            font-family: 'Pacifico', cursive;
+            color: var(--rose);
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        .btn {
+            background: var(--dark-mint);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(86, 197, 150, 0.3);
+            transition: 0.3s;
+            width: 100%;
+        }
+
+        /* JUEGO: Limpieza Dental */
+        .mouth-area {
+            position: relative;
+            background: #fff;
+            border-radius: 50%;
+            width: 180px;
+            height: 180px;
+            margin: 20px auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 70px;
+            border: 5px solid #ffdde1;
+        }
+
+        .bacteria {
+            position: absolute;
+            font-size: 30px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        /* SECCIÓN: Odontograma */
+        .teeth-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .tooth-btn {
+            background: white;
+            border: 2px solid var(--mint);
+            border-radius: 12px;
+            padding: 12px;
+            font-size: 25px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .tooth-btn:active {
+            transform: scale(0.9);
+            background: #f1f8e9;
+        }
+
+        /* SECCIÓN: Receta */
+        .rx-card {
+            text-align: left;
+            background: white;
+            padding: 25px;
+            border: 1px solid #ddd;
+            position: relative;
+            font-family: 'Courier New', Courier, monospace;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border-radius: 4px;
+        }
+
+        .rx-header {
+            border-bottom: 2px solid #333;
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+        }
+
+        /* Animación del Corazón Final */
+        .pulse-heart {
+            font-size: 60px;
+            animation: pulse 1.5s infinite;
+            margin-top: 15px;
+            display: inline-block;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+            100% { transform: scale(1); }
+        }
+
+        /* Flotantes Decorativos */
+        .floating {
+            position: fixed;
+            z-index: -1;
+            opacity: 0.4;
+            animation: floatAnim 6s infinite ease-in-out;
+        }
+
+        @keyframes floatAnim {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(20deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Iconos decorativos de fondo -->
+    <div class="floating" style="top: 10%; left: 5%; font-size: 40px;">🦷</div>
+    <div class="floating" style="top: 20%; right: 10%; font-size: 30px; animation-delay: 1s;">✨</div>
+    <div class="floating" style="bottom: 15%; left: 10%; font-size: 35px; animation-delay: 2s;">🪥</div>
+
+    <div class="app-container">
+        
+        <!-- PANTALLA 1: Bienvenida -->
+        <div id="screen1" class="screen active">
+            <div class="card">
+                <div style="font-size: 60px; margin-bottom: 10px;">👩‍⚕️</div>
+                <h1 class="title">Dra. Ady</h1>
+                <p>Ha llegado un paciente muy especial con una urgencia en el corazón.</p>
+                <button class="btn" onclick="nextScreen(2)">Abrir Consultorio</button>
+            </div>
+        </div>
+
+        <!-- PANTALLA 2: Minijuego de Limpieza -->
+        <div id="screen2" class="screen">
+            <div class="card">
+                <h2 style="color: var(--dark-mint); margin-top: 0;">¡Urgente! Limpieza Dental</h2>
+                <p>Elimina todas las bacterias 🦠 tocándolas con el dedo para revelar el caso médico.</p>
+                
+                <div class="mouth-area" id="mouth">🦷</div>
+                
+                <p id="counter" style="font-weight: bold; color: #666;">Bacterias restantes: 5</p>
+                <button id="btnNext2" class="btn" style="display: none;" onclick="nextScreen(3)">Ver Diagnóstico</button>
+            </div>
+        </div>
+
+        <!-- PANTALLA 3: El Odontograma Interactiva -->
+        <div id="screen3" class="screen">
+            <div class="card">
+                <h2 class="title">Odontograma Especial</h2>
+                <p>Cada diente tiene guardado un secreto de este paciente. ¡Tócalos todos!</p>
+                
+                <div class="teeth-grid">
+                    <button class="tooth-btn" onclick="showReason('Eres la mujer más hermosa e inteligente que conozco 🧠')">🦷</button>
+                    <button class="tooth-btn" onclick="showReason('Tu hermosa sonrisa ilumina cada uno de mis días ☀️')">🦷</button>
+                    <button class="tooth-btn" onclick="showReason('Admiro infinitamente la pasión que le pones a tu carrera 🩺')">🦷</button>
+                    <button class="tooth-btn" onclick="showReason('Amo la forma tan tierna en la que me cuidas 🧸')">🦷</button>
+                    <button class="tooth-btn" onclick="showReason('Eres mi confidente, mi apoyo y mi gran amor 💖')">🦷</button>
+                    <button class="tooth-btn" onclick="showReason('Me encantan absolutamente todos los momentos juntos ✈️')">🦷</button>
+                    <button class="tooth-btn" onclick="showReason('Adoro perderme en tu mirada y en tus abrazos 🤗')">🦷</button>
+                    <button class="tooth-btn" onclick="showReason('Te elijo hoy, mañana y siempre por ser quien eres ✨')">🦷</button>
+                </div>
+
+                <div id="reason-display" style="margin-top: 25px; font-weight: bold; color: var(--rose); min-height: 60px; font-size: 1.1rem; transition: 0.3s; padding: 0 10px;"></div>
+                
+                <button class="btn" style="margin-top: 15px;" onclick="nextScreen(4)">Finalizar Consulta</button>
+            </div>
+        </div>
+
+        <!-- PANTALLA 4: La Receta Médica Romántica -->
+        <div id="screen4" class="screen">
+            <div class="rx-card">
+                <div class="rx-header">
+                    <h2 style="margin:0; font-size: 1.4rem; color: #111;">RP: RECETA MÉDICA</h2>
+                    <small>Paciente: El hombre más feliz del mundo</small>
+                </div>
+                
+                <p><strong>Tratamiento obligatorio:</strong></p>
+                <ul style="padding-left: 20px; line-height: 1.6;">
+                    <li>Mil besos diarios distribuidos a lo largo del día.</li>
+                    <li>Abrazos infinitos que curen cualquier momento de estrés.</li>
+                    <li>Cenas llenas de risas y momentos inolvidables.</li>
+                    <li>Amor incondicional y sincero para toda la vida.</li>
+                </ul>
+
+                <div style="margin-top: 35px; text-align: center;">
+                    <p style="font-family: 'Pacifico'; font-size: 1.3rem; color: var(--rose); margin: 0;">Te amo con todo mi corazón</p>
+                    <div style="border-top: 1px dashed #333; width: 150px; margin: 10px auto;"></div>
+                    <small>Firma de tu novio favorito</small>
+                </div>
+            </div>
+            
+            <div style="text-align: center;">
+                <span class="pulse-heart">❤️</span>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Lógica para cambiar entre pantallas
+        function nextScreen(screenNumber) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById('screen' + screenNumber).classList.add('active');
+            
+            if(screenNumber === 2) initGame();
+        }
+
+        // Lógica del juego de limpiar bacterias
+        let bacteriasCount = 5;
+        function initGame() {
+            const mouth = document.getElementById('mouth');
+            if(mouth.children.length > 1) return; // Evita que se vuelvan a crear si se regresa
+
+            for(let i=0; i<5; i++) {
+                const b = document.createElement('div');
+                b.className = 'bacteria';
+                b.innerHTML = '🦠';
+                
+                // Distribución aleatoria sobre el círculo dental
+                b.style.top = Math.floor(Math.random() * 65 + 10) + '%';
+                b.style.left = Math.floor(Math.random() * 65 + 10) + '%';
+                
+                b.onclick = function() {
+                    this.style.transform = 'scale(0)';
+                    setTimeout(() => this.remove(), 250);
+                    bacteriasCount--;
+                    updateCounter();
+                };
+                mouth.appendChild(b);
+            }
+        }
+
+        function updateCounter() {
+            const counter = document.getElementById('counter');
+            if(bacteriasCount > 0) {
+                counter.innerText = "Bacterias restantes: " + bacteriasCount;
+            } else {
+                counter.innerHTML = "<span style='color: var(--dark-mint)'>¡Sonrisa impecable! ✨</span>";
+                document.getElementById('btnNext2').style.display = 'block';
+            }
+        }
+
+        // Lógica para mostrar textos del odontograma
+        function showReason(text) {
+            const display = document.getElementById('reason-display');
+            display.style.opacity = 0;
+            setTimeout(() => {
+                display.innerText = text;
+                display.style.opacity = 1;
+            }, 150);
+        }
+    </script>
+</body>
+</html>
